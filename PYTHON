@@ -1,0 +1,70 @@
+import random
+
+intents = {
+    "intents": [
+        {
+            "tag": "greeting",
+            "patterns": [
+                "Hello",
+                "Hi",
+                "Hey",
+                "Good morning"
+            ],
+            "responses": [
+                "Hello! How can I help you today?"
+            ]
+        },
+        {
+            "tag": "order_tracking",
+            "patterns": [
+                "Where is my order?",
+                "Track my order",
+                "Where is my package?",
+                "How can I track my delivery?"
+            ],
+            "responses": [
+                "Please provide your order ID to track your package."
+            ]
+        },
+        {
+            "tag": "refund",
+            "patterns": [
+                "How can I get a refund?",
+                "I want my money back",
+                "How do I request a refund?"
+            ],
+            "responses": [
+                "Please provide your order ID to initiate a refund request."
+            ]
+        }
+    ]
+}
+
+
+def get_response(message):
+    text = message.strip().lower()
+    for intent in intents["intents"]:
+        for pattern in intent["patterns"]:
+            if pattern.lower() in text:
+                return random.choice(intent["responses"])
+
+    if "order id" in text or "order number" in text:
+        return "Thanks. Please share your order ID so I can help you further."
+
+    return "Sorry, I didn't understand that. Can you please rephrase?"
+
+
+def main():
+    print("Customer Support Chatbot")
+    print("Type 'exit' to end the conversation.")
+    while True:
+        user_input = input("You: ")
+        if user_input.strip().lower() == "exit":
+            print("Chatbot: Goodbye!")
+            break
+        response = get_response(user_input)
+        print(f"Chatbot: {response}")
+
+
+if __name__ == "__main__":
+    main()
